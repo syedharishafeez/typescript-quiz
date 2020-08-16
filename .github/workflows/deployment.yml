@@ -34,5 +34,8 @@ jobs:
     - name: create build
       run: CI=false yarn build
     
+    - name: Setup Surge
+      run: npm i -g surge
+    
     - name: Run Surge
       run: surge ./build haris-typescript-quiz.surge.sh --token ${{secrets.SURGE_TOKEN}}

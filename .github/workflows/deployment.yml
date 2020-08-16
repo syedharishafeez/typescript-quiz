@@ -25,9 +25,14 @@ jobs:
       uses: actions/setup-node@v1.4.3
       with:
          node-version: 12
-     
+         
+    - name: Setup Yarn
+      uses: Borales/actions-yarn@v2.3.0
+      with:
+        cmd: install
+    
     - name: create build
-      run: CI=false npm run build
+      run: CI=false yarn build
     
     - name: Run Surge
       run: surge ./build haris-typescript-quiz.surge.sh --token ${{secrets.SURGE_TOKEN}}

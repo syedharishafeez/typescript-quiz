@@ -80,7 +80,7 @@ function App() {
                     Questions {questionNumber}/{totalQuestions.length}
                   </Typography>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={11}>
                   <Typography variant="h5" style={{ textAlign: "center" }}>
                     {question}
                   </Typography>

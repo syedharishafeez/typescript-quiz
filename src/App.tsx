@@ -216,6 +216,7 @@ function App() {
                   color="primary"
                   style={{ textAlign: "center" }}
                   onClick={() => {
+                    setQuestionNumber(1);
                     setStart(!start);
                   }}
                 >

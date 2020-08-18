@@ -3,6 +3,8 @@ import { Grid, Typography, Paper, Button } from "@material-ui/core";
 
 function App() {
   let [score, setScore] = useState(0);
+  let [option, setOption] = useState(false);
+  let [optionSelected, setOptionSelected] = useState<String>();
   let [totalQuestions, setTotalQuestions] = useState<
     {
       incorrect_answers: String[];
@@ -40,6 +42,14 @@ function App() {
     })();
   }, []);
 
+  function selectedOption(item: String) {
+    if (item === totalQuestions[questionNumber - 1].correct_answer) {
+      setScore(score + 1);
+    }
+    setOptionSelected(item);
+    setOption(true);
+  }
+
   function onNextButton() {
     let incorrect_answers: String[] =
       totalQuestions[questionNumber].incorrect_answers;
@@ -49,6 +59,7 @@ function App() {
     setChoices([...incorrect_answers, correct_answer]);
     setQuestion(questionAsked);
     setQuestionNumber(questionNumber + 1);
+    setOption(false);
   }
 
   return (
@@ -87,21 +98,42 @@ function App() {
                 </Grid>
               </Grid>
               <Grid container spacing={2} justify="center" alignItems="center">
-                {choices.map((item) => (
-                  <Grid item xs={11}>
-                    <Paper
-                      variant="outlined"
-                      style={{
-                        width: "100%",
-                        backgroundColor: "#00BFFF",
-                        textAlign: "center",
-                        padding: "5px 0px 5px 0px",
-                      }}
-                    >
-                      {item}
-                    </Paper>
-                  </Grid>
-                ))}
+                {choices.map((item) => {
+                  let color = "#00BFFF";
+                  if (option) {
+                    if (
+                      item === totalQuestions[questionNumber - 1].correct_answer
+                    ) {
+                      color = "green";
+                    }
+                    if (
+                      optionSelected === item &&
+                      totalQuestions[
+                        questionNumber - 1
+                      ].incorrect_answers.includes(item)
+                    ) {
+                      color = "red";
+                    }
+                  }
+
+                  return (
+                    <Grid item xs={11}>
+                      <Button
+                        disabled={option}
+                        variant="outlined"
+                        style={{
+                          width: "100%",
+                          backgroundColor: color,
+                          textAlign: "center",
+                          padding: "5px 0px 5px 0px",
+                        }}
+                        onClick={() => selectedOption(item)}
+                      >
+                        {item}
+                      </Button>
+                    </Grid>
+                  );
+                })}
               </Grid>
             </Paper>
           </Grid>
